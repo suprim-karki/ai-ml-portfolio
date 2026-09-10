@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-model =joblib.load('knn_heartdisease.pkl')
+model =joblib.load('svc_heartdisease.pkl')
 scaler =joblib.load('scaler_heartdisease.pkl')
 expected_columns =joblib.load('columns_heartdisease.pkl')
 
-st.title("Heart Disease prediction")
+st.title("Heart Disease Predictor 🫀")
 st.markdown("Provide the following details")
 
 age = st.slider("Age",18,100,40)
