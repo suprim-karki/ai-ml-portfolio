@@ -82,3 +82,57 @@ streamlit run app.py
 ```
 
 Streamlit will print a local URL, usually `http://localhost:8501`. Open it in a browser, enter the requested patient information, and select **Predict**.
+
+
+## Training workflow
+
+The complete workflow is documented in [`heart_disease.ipynb`](heart_disease.ipynb):
+
+1. Load and inspect `heart.csv`.
+2. Clean invalid zero values in blood-pressure and cholesterol columns.
+3. Explore distributions and relationships with the target.
+4. One-hot encode categorical features and standardize numerical features.
+5. Split the data into training and test sets.
+6. Train and compare five classification models using accuracy and F1 score.
+7. Export the SVC model, fitted scaler, and feature-column list with Joblib.
+
+## Model performance
+
+The following evaluation metrics were recorded in the training notebook using an 80/20 train-test split. SVC was selected for the deployed application because it achieved the strongest results in this run.
+
+| Model | Accuracy | F1 score |
+| --- | ---: | ---: |
+| Logistic Regression | 0.875 | 0.888 |
+| K-Nearest Neighbors | 0.875 | 0.889 |
+| Gaussian Naive Bayes | 0.853 | 0.867 |
+| Decision Tree Classifier | 0.837 | 0.853 |
+| Support Vector Classifier (deployed) | **0.886** | **0.901** |
+
+To retrain the model, open the notebook from this directory and run all cells:
+
+```bash
+jupyter notebook heart_disease.ipynb
+```
+
+The exported `.pkl` files must remain alongside `app.py`, because the application loads them at startup.
+
+## Tech stack
+
+- Python
+- Streamlit
+- pandas
+- scikit-learn
+- Joblib
+- Jupyter Notebook
+- Matplotlib and Seaborn
+
+## Limitations and responsible use
+
+- The output is a model estimate based on the training dataset, not a clinical diagnosis.
+- Performance can vary with data quality, population differences, and model-training choices.
+- The notebook does not set a fixed random seed for the train/test split; evaluation results may change across runs.
+- Any real-world clinical use would require rigorous validation, bias assessment, privacy controls, regulatory review, and clinician oversight.
+
+## License
+
+No license has been specified for this project.
