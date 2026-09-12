@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-model =joblib.load('svc_heartdisease.pkl')
+model =joblib.load('svc_heartdisease_model.pkl')
 scaler =joblib.load('scaler_heartdisease.pkl')
 expected_columns =joblib.load('columns_heartdisease.pkl')
 
