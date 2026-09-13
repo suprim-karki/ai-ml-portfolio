@@ -1,6 +1,6 @@
 # Heart Disease Prediction
 
-A machine-learning web application that estimates the likelihood of heart disease from clinical measurements and patient-reported attributes. The project includes an exploratory analysis and training notebook, a trained Support Vector Classifier (SVC), and an interactive Streamlit interface for making predictions.
+A machine-learning web application that estimates the likelihood of heart disease from clinical measurements and patient-reported attributes. The project includes an exploratory analysis and training notebook, a hyperparameter-tuned Support Vector Classifier (SVC), and an interactive Streamlit interface for making predictions.
 
 > **Medical disclaimer:** This project is for educational and demonstration purposes only. It is not a diagnostic tool and must not be used as a substitute for advice, diagnosis, or treatment from a qualified healthcare professional.
 
@@ -17,7 +17,7 @@ A machine-learning web application that estimates the likelihood of heart diseas
 - Interactive Streamlit form for entering patient attributes
 - Data cleaning, exploratory data analysis (EDA), encoding, and feature scaling
 - Comparison of Logistic Regression, K-Nearest Neighbors, Gaussian Naive Bayes, Decision Tree, and SVC models
-- Persisted SVC model, `StandardScaler`, and expected feature schema for reproducible inference
+- Persisted hyperparameter-tuned SVC model, `StandardScaler`, and expected feature schema for reproducible inference
 - Clear high-risk and low-risk prediction messages
 
 ## Project structure
@@ -77,9 +77,17 @@ pip install streamlit pandas scikit-learn joblib jupyter seaborn matplotlib
 
 ### Run the application
 
+Use either of the following commands:
+
 ```bash
 streamlit run app.py
 ```
+
+```bash
+python3 -m streamlit run app.py
+```
+
+If `streamlit run app.py` is not recognized on your system, use `python3 -m streamlit run app.py`.
 
 Streamlit will print a local URL, usually `http://localhost:8501`. Open it in a browser, enter the requested patient information, and select **Predict**.
 
@@ -94,11 +102,12 @@ The complete workflow is documented in [`heart_disease.ipynb`](heart_disease.ipy
 4. One-hot encode categorical features and standardize numerical features.
 5. Split the data into training and test sets.
 6. Train and compare five classification models using accuracy and F1 score.
-7. Export the SVC model, fitted scaler, and feature-column list with Joblib.
+7. Tune the selected SVC with `GridSearchCV`.
+8. Export the tuned SVC model, fitted scaler, and feature-column list with Joblib.
 
 ## Model performance
 
-The following evaluation metrics were recorded in the training notebook using an 80/20 train-test split. SVC was selected for the deployed application because it achieved the strongest results in this run.
+The following evaluation metrics were recorded in the training notebook using an 80/20 train-test split. The deployed model is the hyperparameter-tuned SVC, selected after `GridSearchCV` tuning.
 
 | Model | Accuracy | F1 score |
 | --- | ---: | ---: |
@@ -106,7 +115,7 @@ The following evaluation metrics were recorded in the training notebook using an
 | K-Nearest Neighbors | 0.875 | 0.889 |
 | Gaussian Naive Bayes | 0.853 | 0.867 |
 | Decision Tree Classifier | 0.837 | 0.853 |
-| Support Vector Classifier (deployed) | **0.886** | **0.901** |
+| Hyperparameter-tuned Support Vector Classifier (deployed) | **0.885** | **0.904** |
 
 To retrain the model, open the notebook from this directory and run all cells:
 
