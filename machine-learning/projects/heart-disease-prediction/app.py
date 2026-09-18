@@ -7,7 +7,7 @@ scaler =joblib.load('scaler_heartdisease.pkl')
 expected_columns =joblib.load('columns_heartdisease.pkl')
 
 st.title("Heart Disease Predictor 🫀")
-st.markdown("Provide the following details")
+st.markdown("Provide the following details.")
 
 age = st.slider("Age",18,100,40)
 sex = st.selectbox("Sex",['M','F'])
