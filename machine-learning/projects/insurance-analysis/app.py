@@ -14,3 +14,17 @@ children = st.number_input("Number of Childrens", 0,8,0)
 smoker = st.selectbox("Smoker",["Y","N"])
 region = st.selectbox("Region",["southeast","southwest","northwest","northeast"])
 bmi_category = st.selectbox("BMI Category", ["Obese","Overweight","Normal","Underweight"])
+
+if st.button("Predict"):
+    raw_input = {
+        "age":age,
+        "sex":sex,
+        "children":children,
+        "smoker":smoker,
+        "region":region,
+        "bmi_category":bmi_category
+    }
+
+    input_df = pd.DataFrame([raw_input])
+
+    
