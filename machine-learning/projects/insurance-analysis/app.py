@@ -33,4 +33,10 @@ if st.button("Predict"):
     
     input_df=input_df[excepted_columns]
 
+    prediction = model.predict(input_df)[0]
+
+    if prediction:
+        st.success(f"The predicted charge is {prediction}")
+    else:
+        st.error("‼️ Error")
     
