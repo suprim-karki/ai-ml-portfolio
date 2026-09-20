@@ -28,14 +28,14 @@ if st.button("Predict"):
     input_df = pd.DataFrame([raw_input])
 
     for col in excepted_columns:
-        if col not in excepted_columns:
+        if col not in input_df.columns:
             input_df[col] = 0
     
     input_df=input_df[excepted_columns]
 
     prediction = model.predict(input_df)[0]
 
-    if prediction:
+    if prediction is not None:
         st.success(f"The predicted charge is {prediction:.2f}")
     else:
         st.error("‼️ Error")
