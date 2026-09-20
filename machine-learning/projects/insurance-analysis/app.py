@@ -8,10 +8,10 @@ excepted_columns = joblib.load("columns_insurance.pkl")
 st.title("Insurance Premium Predictor 💵")
 st.markdown("Provide the following details.")
 
-age = st.slider("Age", 0, 110, 40)
-sex = st.selectbox("Sex", ["M","F"])
+age = st.slider("Age", 1, 110, 40)
+sex = st.selectbox("Sex", ["male","female"])
 children = st.number_input("Number of Childrens", 0,8,0)
-smoker = st.selectbox("Smoker",["Y","N"])
+smoker = st.selectbox("Smoker",["no","yes"])
 region = st.selectbox("Region",["southeast","southwest","northwest","northeast"])
 bmi_category = st.selectbox("BMI Category", ["Obese","Overweight","Normal","Underweight"])
 
@@ -36,7 +36,7 @@ if st.button("Predict"):
     prediction = model.predict(input_df)[0]
 
     if prediction:
-        st.success(f"The predicted charge is {prediction}")
+        st.success(f"The predicted charge is {prediction:.2f}")
     else:
         st.error("‼️ Error")
     
