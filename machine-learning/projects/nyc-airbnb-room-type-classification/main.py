@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 import pandas as pd
 from pydantic import BaseModel, Field
+import joblib
 
 app = FastAPI()
 
 COLUMNS = ["latitude", "longitude", "price", "minimum_nights","number_of_reviews", "reviews_per_month","calculated_host_listings_count", "availability_365","neighbourhood_group", "neighbourhood"]
+
+# Load the model
+model = joblib.load("model_pipeline.pkl")
 
 # Pydantic Model for Input Validation
 class Features(BaseModel):
@@ -27,3 +31,4 @@ def greet():
 @app.post("/predict")
 def predict(features: Features):
     row = pd.DataFrame([features.model_dump()], columns=COLUMNS)
+
