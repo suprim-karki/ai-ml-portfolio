@@ -2,8 +2,16 @@ from fastapi import FastAPI
 import pandas as pd
 from pydantic import BaseModel, Field
 import joblib
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = ["*"],
+    allow_methods = ["*"],
+    allow_headers = ["*"]
+)
 
 COLUMNS = ["latitude", "longitude", "price", "minimum_nights","number_of_reviews", "reviews_per_month","calculated_host_listings_count", "availability_365","neighbourhood_group", "neighbourhood"]
 
