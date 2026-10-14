@@ -1,10 +1,17 @@
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 import pandas as pd
 from pydantic import BaseModel, Field
 import joblib
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+PROJECT_DIR = Path(__file__).resolve().parent
+FRONTEND_DIR = PROJECT_DIR / "frontend"
 
 app.add_middleware(
     CORSMiddleware,
@@ -15,8 +22,8 @@ app.add_middleware(
 
 COLUMNS = ["latitude", "longitude", "price", "minimum_nights","number_of_reviews", "reviews_per_month","calculated_host_listings_count", "availability_365","neighbourhood_group", "neighbourhood"]
 
-# Load the model
-model = joblib.load("model_pipeline.pkl")
+# Load the model relative to this file so `uvicorn main:app` works from any directory.
+model = joblib.load(PROJECT_DIR / "model_pipeline.pkl")
 
 # Pydantic Model for Input Validation
 class Features(BaseModel):
@@ -32,8 +39,9 @@ class Features(BaseModel):
     neighbourhood: str = Field(...,min_length=1, description="Specific neighbourhood name")
 
 @app.get("/")
-def greet():
-    return "Running"
+def serve_frontend():
+    """Serve the single-page frontend from the same FastAPI application."""
+    return FileResponse(FRONTEND_DIR / "index.html")
 
 
 @app.post("/predict")
@@ -46,3 +54,7 @@ def predict(features: Features):
         "Predicted_room_type":prediction[0],
         "Probability": probability.tolist()
         }
+
+
+# The browser receives CSS and JavaScript from this FastAPI app as well, so no separate frontend development server is needed.
+app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
